@@ -1,461 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#1a0d12">
-    <title>Meri Shriuu 💝</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Nunito:wght@300;400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Playfair+Display:ital,wght@0,400;1,400;1,500;1,700&family=Pacifico&family=Montserrat:wght@400;600;700;800;900&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0d0608">
+  <title>Meri Shriuu 💝</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Nunito:wght@300;400;600;700;800&family=Lora:wght@400;500&family=Playfair+Display:wght@400;500;700&family=Pacifico&family=Montserrat:wght@600;700;800;900&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Global Background Canvas -->
+<!-- GLOBAL FIXED LAYERS -->
 <canvas id="bgCanvas"></canvas>
+<div id="nickOverlay" class="nick-overlay nick-hidden"></div>
+<div id="eggLayer" class="egg-layer"></div>
+<button class="music-fab" id="musicFab">🎵</button>
 
-<!-- Easter Egg Hearts -->
-<div id="easterEggLayer"></div>
+<!-- AUDIO -->
+<audio id="bgMusic" loop><source src="assets/song.mp3" type="audio/mpeg"></audio>
+<audio id="rainAudio" loop><source src="assets/rain.mp3" type="audio/mpeg"></audio>
+<audio id="chimeAudio"><source src="assets/chime.mp3" type="audio/mpeg"></audio>
+<audio id="pageflipAudio"><source src="assets/pageflip.mp3" type="audio/mpeg"></audio>
+<audio id="voiceAudio"><source src="assets/Shriuu.mp3" type="audio/mpeg"></audio>
 
-<!-- Floating Music Button -->
-<div class="music-float" id="musicFloat">
-    <button class="music-fab" id="musicFab">🎵</button>
+<!-- PAGE 1: HEARTBEAT INTRO -->
+<div class="page active" id="page-intro">
+  <canvas id="ecgCanvas"></canvas>
+  <div class="intro-content">
+    <div class="heart-anim-wrap" id="heartAnimWrap">
+      <div class="pulse-ring pr1"></div>
+      <div class="pulse-ring pr2"></div>
+      <div class="pulse-ring pr3"></div>
+      <div class="css-heart-sm" id="cssHeartIntro">
+        <span class="hl"></span><span class="hr"></span><span class="hsq"></span>
+      </div>
+    </div>
+    <h1 class="intro-name" id="introName">Shrishti...</h1>
+    <p class="intro-sub" id="introSub">Kuch khaas hai aaj tumhare liye 🥺</p>
+    <button class="btn-primary btn-enter" id="enterBtn">
+      Enter My Heart &nbsp;💝<span class="btn-glow"></span>
+    </button>
+  </div>
 </div>
 
-<!-- AUDIO ELEMENTS -->
-<audio id="bgMusic" loop preload="none">
-    <source src="assets/song.mp3" type="audio/mpeg">
-</audio>
-<audio id="rainAudio" loop preload="none">
-    <source src="assets/rain.mp3" type="audio/mpeg">
-</audio>
-<audio id="chimeAudio" preload="none">
-    <source src="assets/chime.mp3" type="audio/mpeg">
-</audio>
-<audio id="pageflipAudio" preload="none">
-    <source src="assets/pageflip.mp3" type="audio/mpeg">
-</audio>
-<audio id="voiceAudio" preload="none">
-    <source src="assets/Shriuu.mp3" type="audio/mpeg">
-</audio>
-
-<!-- ================================================
-     SCREEN 1 — HEARTBEAT INTRO
-     ================================================ -->
-<section id="s-intro" class="screen active-screen">
-    <canvas id="ecgCanvas"></canvas>
-    <div class="intro-wrap">
-        <div class="heart-pulse-icon" id="heartPulseIcon">💗</div>
-        <h1 class="intro-name" id="introName">Shrishti...</h1>
-        <p class="intro-sub" id="introSub">Kuch khaas hai aaj tere liye 🥺</p>
-        <button class="enter-btn" id="enterBtn">
-            <span>Enter My Heart</span>
-            <span class="btn-icon">💝</span>
-        </button>
+<!-- PAGE 2: DO YOU LOVE ME? -->
+<div class="page" id="page-question">
+  <canvas id="petalCanvas"></canvas>
+  <div class="question-content">
+    <div class="q-media">
+      <div class="media-frame rg-border">
+        <video src="assets/gif1.mp4" autoplay muted loop playsinline></video>
+      </div>
     </div>
-</section>
-
-<!-- ================================================
-     SCREEN 2 — DO YOU LOVE ME?
-     ================================================ -->
-<section id="s-question" class="screen">
-    <div class="nickname-float-bg" id="nicknameBg"></div>
-
-    <div class="question-wrap">
-        <div class="q-gif-top">
-            <!-- GIF 1 — rename your file to gif1.mp4 inside assets/ -->
-            <video src="assets/gif1.mp4" autoplay muted loop playsinline></video>
-        </div>
-
-        <div class="question-card">
-            <p class="q-small">Ek sawaal tha mera... 👀</p>
-            <h1 class="q-main">Kya tum mujhse<br>pyaar karti ho? 🥺</h1>
-            <p class="q-note">(Soch ke batana... though I already know 😌)</p>
-
-            <div class="q-buttons">
-                <button class="btn-yes" id="yesBtn">Haanji! 💝</button>
-                <button class="btn-no" id="noBtn">Nahi 🙅</button>
-            </div>
-        </div>
+    <div class="question-card rg-card">
+      <p class="q-label">Ek sawaal tha mera... 👀</p>
+      <h1 class="q-main">Kya tum mujhse<br>pyaar karti ho? 🥺</h1>
+      <p class="q-hint">(Soch ke batana... waise mujhe pata hai 😌)</p>
+      <div class="q-btns">
+        <button class="btn-primary btn-yes" id="yesBtn">Haanji! 💝<span class="btn-glow"></span></button>
+        <button class="btn-no" id="noBtn">Nahi 🙅</button>
+      </div>
     </div>
-</section>
+  </div>
+</div>
 
-<!-- ================================================
-     SCREEN 3 — YES CELEBRATION
-     ================================================ -->
-<section id="s-yes" class="screen">
-    <canvas id="confettiCanvas"></canvas>
-    <div class="yes-wrap">
-        <div class="yes-heart-big" id="yesBigHeart">💗</div>
-        <h1 class="yes-headline" id="yesHeadline"></h1>
-
-        <div class="yes-gif">
-            <!-- GIF 2 — rename your file to gif2.mp4 inside assets/ -->
-            <video src="assets/gif2.mp4" autoplay muted loop playsinline></video>
-        </div>
-
-        <div class="scroll-nudge" id="scrollNudge">
-            <p>Aur bhi kuch hai... 🌹</p>
-            <div class="bounce-arrow">↓</div>
-        </div>
+<!-- PAGE 3: YES CELEBRATION -->
+<div class="page" id="page-yes">
+  <canvas id="confettiCanvas"></canvas>
+  <div class="yes-content">
+    <div class="css-heart-big" id="cssBigHeart">
+      <span class="chl"></span><span class="chr"></span><span class="chsq"></span>
     </div>
-</section>
-
-<!-- ================================================
-     SCREEN 4 — LOVE COUNTER
-     ================================================ -->
-<section id="s-counter" class="screen scroll-screen">
-    <div class="counter-wrap">
-        <span class="section-badge">12 Feb 2026 💝</span>
-        <h2 class="section-heading">Jab se tum meri zindagi mein aayi...</h2>
-
-        <div class="counter-grid">
-            <div class="c-card">
-                <span class="c-num" id="cDays">0</span>
-                <span class="c-lbl">Din ❤️</span>
-            </div>
-            <div class="c-card">
-                <span class="c-num" id="cHours">0</span>
-                <span class="c-lbl">Ghante 🕐</span>
-            </div>
-            <div class="c-card">
-                <span class="c-num" id="cMins">0</span>
-                <span class="c-lbl">Minute ⏱️</span>
-            </div>
-            <div class="c-card highlight-card">
-                <span class="c-num" id="cSecs">0</span>
-                <span class="c-lbl">Second ✨</span>
-            </div>
-        </div>
-
-        <p class="counter-note">Aur har ek second behtar hota ja raha hai 🥺</p>
+    <div class="css-heart-shadow"></div>
+    <h1 class="yes-msg" id="yesMsg"></h1>
+    <div class="yes-media">
+      <div class="media-frame rg-border">
+        <video src="assets/gif2.mp4" autoplay muted loop playsinline></video>
+      </div>
     </div>
-</section>
+    <button class="btn-continue hidden" id="yesContinueBtn" onclick="goTo('counter')">
+      Aage Badho &nbsp;🌹<span class="btn-glow"></span>
+    </button>
+  </div>
+</div>
 
-<!-- ================================================
-     SCREEN 5 — ENVELOPE + LOVE LETTER
-     ================================================ -->
-<section id="s-letter" class="screen scroll-screen">
-    <div class="letter-wrap">
-        <h2 class="section-heading">Ek khat... sirf tere liye 💌</h2>
-
-        <!-- ENVELOPE -->
-        <div class="envelope-scene" id="envelopeScene">
-            <div class="envelope" id="envelope">
-                <div class="env-flap" id="envFlap"></div>
-                <div class="env-body">
-                    <div class="wax-seal">💌</div>
-                    <p class="env-to">Meri Shriuu 🥺</p>
-                </div>
-            </div>
-            <p class="env-tap-hint">Tap to open 💕</p>
-        </div>
-
-        <!-- LETTER PAPER — hidden until envelope opens -->
-        <div class="letter-paper" id="letterPaper">
-            <!-- Photo of her eyes -->
-            <div class="letter-photo-wrap">
-                <div class="letter-photo-frame">
-                    <img src="assets/Shriuu.jpeg" alt="Meri Shriuu" class="letter-photo">
-                </div>
-                <p class="photo-caption">Meri Shriuu 🥰</p>
-            </div>
-
-            <!-- ============================================================
-                 LETTER BODY — ADD YOUR LETTER TEXT IN THE MARKED SPOTS BELOW
-                 Each .letter-para fades in as she scrolls.
-                 Add shayaris inside .shayari-box divs.
-                 ============================================================ -->
-            <div class="letter-body">
-
-                <!-- PARA 1 -->
-                <p class="letter-para lp-reveal">
-                    <!-- ✍️ YOUR OPENING PARAGRAPH HERE -->
-                    Meri pyaari Shrishti...
-                </p>
-
-                <!-- SHAYARI 1 — Edit the shayari text below -->
-                <div class="shayari-box lp-reveal">
-                    <div class="shayari-inner">
-                        <span class="sq-deco top-deco">❝</span>
-                        <p class="shayari-text">
-                            <!-- ✍️ SHAYARI 1 HERE -->
-                            Tu meri aankhon ka sukoon hai,<br>
-                            Dil ki dhadkan ka junoon hai...
-                        </p>
-                        <span class="sq-deco btm-deco">❞</span>
-                    </div>
-                </div>
-
-                <!-- PARA 2 -->
-                <p class="letter-para lp-reveal">
-                    <!-- ✍️ YOUR PARAGRAPH 2 HERE -->
-                    [Yahan apna letter likhna...]
-                </p>
-
-                <!-- SHAYARI 2 -->
-                <div class="shayari-box lp-reveal">
-                    <div class="shayari-inner">
-                        <span class="sq-deco top-deco">❝</span>
-                        <p class="shayari-text">
-                            <!-- ✍️ SHAYARI 2 HERE -->
-                            Teri muskaan mera ilaaj hai,<br>
-                            Tu hi meri zindagi ka raaz hai...
-                        </p>
-                        <span class="sq-deco btm-deco">❞</span>
-                    </div>
-                </div>
-
-                <!-- PARA 3 -->
-                <p class="letter-para lp-reveal">
-                    <!-- ✍️ YOUR PARAGRAPH 3 HERE -->
-                    [Yahan apna letter likhna...]
-                </p>
-
-                <!-- SHAYARI 3 -->
-                <div class="shayari-box lp-reveal">
-                    <div class="shayari-inner">
-                        <span class="sq-deco top-deco">❝</span>
-                        <p class="shayari-text">
-                            <!-- ✍️ SHAYARI 3 HERE -->
-                            Kabhi socha na tha yun koi milega,<br>
-                            Teri aankhon mein apna aashiyana milega...
-                        </p>
-                        <span class="sq-deco btm-deco">❞</span>
-                    </div>
-                </div>
-
-                <!-- PARA 4 — Closing paragraph -->
-                <p class="letter-para lp-reveal">
-                    <!-- ✍️ YOUR CLOSING PARAGRAPH HERE -->
-                    [Yahan apna letter likhna...]
-                </p>
-
-                <!-- SIGNATURE -->
-                <div class="letter-sign lp-reveal">
-                    <p class="sign-from">Hamesha tera,</p>
-                    <p class="sign-name">Billu 🐱</p>
-                    <p class="sign-date">12 February 2026</p>
-                    <div class="kiss-stamp">💋</div>
-                </div>
-
-            </div>
-            <!-- END OF LETTER BODY -->
-        </div>
+<!-- PAGE 4: LOVE COUNTER -->
+<div class="page" id="page-counter">
+  <div class="page-inner">
+    <span class="page-badge">12 February 2026 💝</span>
+    <h2 class="page-heading">Jab se tum meri zindagi mein aayi...</h2>
+    <p class="page-sub">Har ek second ek tohfa hai 🌸</p>
+    <div class="counter-grid">
+      <div class="c-card rg-card"><span class="c-num" id="cDays">0</span><span class="c-lbl">Din ❤️</span></div>
+      <div class="c-card rg-card"><span class="c-num" id="cHours">0</span><span class="c-lbl">Ghante 🕐</span></div>
+      <div class="c-card rg-card"><span class="c-num" id="cMins">0</span><span class="c-lbl">Minute ⏱️</span></div>
+      <div class="c-card rg-card c-card-pulse"><span class="c-num" id="cSecs">0</span><span class="c-lbl">Second ✨</span></div>
     </div>
-</section>
+    <p class="counter-note">Aur har ek second behtar hota ja raha hai 🥺</p>
+    <button class="btn-continue" onclick="goTo('letter')">Aage Badho &nbsp;💌<span class="btn-glow"></span></button>
+  </div>
+</div>
 
-<!-- ================================================
-     SCREEN 6 — VINYL RECORD
-     ================================================ -->
-<section id="s-vinyl" class="screen scroll-screen">
-    <div class="vinyl-wrap">
-        <h2 class="section-heading">Aur ab ek dhadkan sunao tumhe 🎵</h2>
-        <p class="section-sub">Yeh gaana... sirf tumhare liye 🌹</p>
+<!-- PAGE 5: LOVE LETTER -->
+<div class="page page-scroll" id="page-letter">
+  <div class="page-inner">
+    <h2 class="page-heading">Ek Khat... Sirf Tumhare Liye 💌</h2>
+    <p class="page-sub">Kuch baatein jo dil mein thi...</p>
 
-        <div class="vinyl-scene" id="vinylScene">
-            <div class="vinyl-disk" id="vinylDisk">
-                <div class="vinyl-ring r1"></div>
-                <div class="vinyl-ring r2"></div>
-                <div class="vinyl-ring r3"></div>
-                <div class="vinyl-center">
-                    <span class="vc-heart">💝</span>
-                    <span class="vc-text">Our Song</span>
-                </div>
+    <!-- ENVELOPE -->
+    <div class="envelope-scene" id="envelopeScene">
+      <div class="envelope-shadow"></div>
+      <div class="envelope-3d" id="envelope3d">
+        <div class="env-body-wrap" id="envBodyWrap">
+          <div class="env-body">
+            <div class="env-back-flap"></div>
+            <div class="env-side-left"></div>
+            <div class="env-side-right"></div>
+            <div class="env-bottom"></div>
+            <div class="env-face">
+              <div class="wax-seal-btn" id="waxSealBtn">
+                <div class="wax-outer-ring"></div>
+                <div class="wax-inner">💌</div>
+              </div>
+              <p class="env-to-text">Meri Shriuu 🥺</p>
             </div>
-            <div class="vinyl-arm" id="vinylArm"></div>
+          </div>
+          <div class="env-top-flap" id="envFlap"></div>
         </div>
-
-        <div class="music-vis" id="musicVis">
-            <span></span><span></span><span></span>
-            <span></span><span></span><span></span>
-            <span></span>
-        </div>
-
-        <p class="vinyl-playing-txt" id="vinylTxt">♫ Sirf tere liye... ♫</p>
+      </div>
+      <p class="env-tap-hint" id="envHint">Seal ko tap karo khoolne ke liye 🥺</p>
+      <div class="env-bounce-arrow">↑</div>
     </div>
-</section>
 
-<!-- ================================================
-     SCREEN 7 — CATCH MY HEART GAME
-     ================================================ -->
-<section id="s-game" class="screen scroll-screen">
-    <div class="game-wrap">
-        <h2 class="section-heading">Pakad le inhe... 🫀</h2>
-        <p class="section-sub">Har dil mein ek raaz chhupa hai</p>
-
-        <div class="game-arena" id="gameArena">
-            <div class="game-hud">
-                <span class="hud-score">Pakde: <span id="caughtNum">0</span>/6 💕</span>
-            </div>
-            <div class="hearts-fall-area" id="heartsFallArea"></div>
+    <!-- LETTER -->
+    <div class="letter-paper" id="letterPaper">
+      <div class="lp-topbar"></div>
+      <div class="letter-ornament">❧ ✦ ❧</div>
+      <div class="letter-photo-wrap">
+        <div class="letter-photo-frame rg-border">
+          <img src="assets/Shriuu.jpeg" alt="Meri Shriuu" class="letter-photo">
         </div>
-
-        <div class="game-start-zone" id="gameStartZone">
-            <button class="game-start-btn" id="gameStartBtn">Shuru Karo 💝</button>
+        <p class="photo-caption">Meri Shriuu 🥰</p>
+      </div>
+      <div class="letter-body">
+        <p class="letter-para lp-r"><!-- PARA 1 --> Meri pyaari Shrishti...</p>
+        <div class="shayari-box lp-r">
+          <div class="shayari-rule">— ✦ —</div>
+          <p class="shayari-text">Tumhari aankhon mein ek duniya mili hai mujhe,<br>Un aankhon mein apna ghar mila hai mujhe...<br>Jo kabhi nahi thi kisi ke naam,<br>Woh manzil tumse milke mili hai mujhe... 🥺</p>
+          <div class="shayari-rule">— ✦ —</div>
         </div>
-
-        <div class="reasons-reveal" id="reasonsReveal"></div>
-
-        <div class="game-win-msg" id="gameWinMsg">
-            <p>Yahi wajahein hain Shriuu...<br>tum bohot khaas ho 🥺</p>
+        <p class="letter-para lp-r"><!-- PARA 2 --> [Yahan apna letter likhein...]</p>
+        <div class="shayari-box lp-r">
+          <div class="shayari-rule">— ✦ —</div>
+          <p class="shayari-text">Tumhari muskaan mera ilaaj hai,<br>Tumhara hona meri pehli zaroorat hai...<br>Koi poochhe toh kya kahoon main,<br>Tum ho toh sab kuch, baki sab aadha hai... 💕</p>
+          <div class="shayari-rule">— ✦ —</div>
         </div>
+        <p class="letter-para lp-r"><!-- PARA 3 --> [Yahan apna letter likhein...]</p>
+        <div class="shayari-box lp-r">
+          <div class="shayari-rule">— ✦ —</div>
+          <p class="shayari-text">Kabhi socha na tha yun koi milega,<br>Tumhare saath itna sukoon milega...<br>Dil ne maanga tha ek saathi zindagi bhar ka,<br>Tumhare roop mein woh khwaab poora milega... 🌹</p>
+          <div class="shayari-rule">— ✦ —</div>
+        </div>
+        <p class="letter-para lp-r"><!-- PARA 4 --> [Yahan apna letter likhein...]</p>
+        <div class="letter-sign lp-r">
+          <p class="sign-from">Hamesha tumhara,</p>
+          <p class="sign-name">Billu 🐱</p>
+          <p class="sign-date">12 February 2026</p>
+          <span class="kiss-mark">💋</span>
+        </div>
+      </div>
+      <div class="letter-ornament btm-orn">❧ ✦ ❧</div>
     </div>
-</section>
 
-<!-- ================================================
-     SCREEN 8 — COMPLIMENT GENERATOR
-     ================================================ -->
-<section id="s-compliments" class="screen scroll-screen">
-    <div class="compliment-wrap">
-        <h2 class="section-heading">Sun toh... 🌸</h2>
-        <p class="section-sub">Aaj bata deta hoon tu kitni khaas hai</p>
+    <button class="btn-continue hidden" id="letterContinueBtn" onclick="goTo('vinyl')">
+      Aage Badho &nbsp;🎵<span class="btn-glow"></span>
+    </button>
+  </div>
+</div>
 
-        <div class="compliment-card" id="complimentCard">
-            <div class="c-sparkles" id="cSparkles"></div>
-            <p class="c-text" id="cText">Tap karo aur dekho 💕</p>
+<!-- PAGE 6: VINYL -->
+<div class="page" id="page-vinyl">
+  <div class="page-inner">
+    <h2 class="page-heading">Ek Dhadkan Sunao Tumhe 🎵</h2>
+    <p class="page-sub">Yeh gaana... sirf tumhare liye 🌹</p>
+    <div class="vinyl-scene">
+      <div class="vinyl-outer-glow"></div>
+      <div class="vinyl-disk" id="vinylDisk">
+        <div class="vg vg1"></div><div class="vg vg2"></div>
+        <div class="vg vg3"></div><div class="vg vg4"></div><div class="vg vg5"></div>
+        <div class="vinyl-shine"></div>
+        <div class="vinyl-label">
+          <span class="vl-icon">💝</span>
+          <span class="vl-title">Our Song</span>
+          <span class="vl-sub">Sirf Tumhare Liye</span>
         </div>
-
-        <button class="compliment-btn" id="complimentBtn">
-            Tap to see how special you are 💕
-        </button>
-
-        <p class="c-counter" id="cCounter">20 compliments waiting 🥰</p>
+      </div>
+      <div class="vinyl-arm" id="vinylArm">
+        <div class="varm-rod"></div>
+        <div class="varm-head"></div>
+        <div class="varm-pivot"></div>
+      </div>
     </div>
-</section>
-
-<!-- ================================================
-     SCREEN 9 — WISH JAR
-     ================================================ -->
-<section id="s-wishjar" class="screen scroll-screen">
-    <div class="wishjar-wrap">
-        <h2 class="section-heading">Mere dil ke kuch khwaab... 🌙</h2>
-        <p class="section-sub">Jo tere saath poore honge 🥺</p>
-
-        <div class="jar-scene" id="jarScene">
-            <!-- Glass Jar SVG -->
-            <svg class="jar-svg" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
-                <!-- Jar cap -->
-                <rect x="35" y="10" width="50" height="14" rx="4"
-                      fill="url(#capGrad)" stroke="#c9906a" stroke-width="1.5"/>
-                <!-- Jar body -->
-                <path d="M28 28 Q22 80 25 140 Q60 152 95 140 Q98 80 92 28 Z"
-                      fill="url(#jarGrad)" stroke="url(#jarStroke)" stroke-width="2"/>
-                <!-- Shine -->
-                <path d="M38 35 Q34 80 36 130" stroke="rgba(255,255,255,0.3)"
-                      stroke-width="4" stroke-linecap="round" fill="none"/>
-                <!-- Definitions -->
-                <defs>
-                    <linearGradient id="jarGrad" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="rgba(255,200,180,0.25)"/>
-                        <stop offset="100%" stop-color="rgba(200,120,100,0.15)"/>
-                    </linearGradient>
-                    <linearGradient id="capGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#e8a07a"/>
-                        <stop offset="100%" stop-color="#c9714a"/>
-                    </linearGradient>
-                    <linearGradient id="jarStroke" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="rgba(232,160,122,0.8)"/>
-                        <stop offset="100%" stop-color="rgba(200,100,80,0.4)"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-
-            <!-- Mini notes floating inside jar -->
-            <div class="jar-notes" id="jarNotes">
-                <span class="jnote">📜</span>
-                <span class="jnote">📜</span>
-                <span class="jnote">📜</span>
-                <span class="jnote">📜</span>
-                <span class="jnote">📜</span>
-            </div>
-
-            <p class="jar-hint">Jar ko tap karo 🫙</p>
-        </div>
-
-        <!-- Unfolding wish display -->
-        <div class="wish-reveal" id="wishReveal">
-            <div class="wish-note-paper" id="wishPaper">
-                <p class="wish-note-text" id="wishNoteText"></p>
-            </div>
-        </div>
-
-        <p class="wish-count-txt" id="wishCountTxt">15 khwaab... 🌙</p>
+    <div class="music-bars" id="musicBars">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span>
     </div>
-</section>
+    <p class="vinyl-caption" id="vinylCaption">♫ Tumhare liye hai yeh sab... ♫</p>
+    <button class="btn-continue" onclick="goTo('game')">Aage Badho &nbsp;🫀<span class="btn-glow"></span></button>
+  </div>
+</div>
 
-<!-- ================================================
-     SCREEN 10 — VOICE NOTE
-     ================================================ -->
-<section id="s-voice" class="screen scroll-screen">
-    <div class="voice-wrap">
-        <h2 class="section-heading">Aur ab... meri awaaz sun 🎙️</h2>
-        <p class="section-sub">Sirf tere liye 🥺</p>
-
-        <div class="mic-orb-wrap" id="micOrbWrap">
-            <div class="mic-orb" id="micOrb">
-                <div class="mic-ring mr1"></div>
-                <div class="mic-ring mr2"></div>
-                <div class="mic-ring mr3"></div>
-                <span class="mic-icon">🎙️</span>
-            </div>
-        </div>
-
-        <p class="mic-hint" id="micHint">Tap karo aur suno 🥺</p>
-
-        <canvas class="viz-canvas" id="vizCanvas"></canvas>
+<!-- PAGE 7: CATCH MY HEART GAME -->
+<div class="page page-scroll" id="page-game">
+  <div class="page-inner">
+    <h2 class="page-heading">Pakad Lo Inhe... 🫀</h2>
+    <p class="page-sub">Har dil mein ek raaz chhupa hai</p>
+    <div class="game-arena" id="gameArena">
+      <div class="game-hud">Pakde: <span id="caughtNum">0</span>/10 💕</div>
+      <div id="fallArea" class="fall-area"></div>
     </div>
-</section>
-
-<!-- ================================================
-     SCREEN 11 — GRAND FINALE
-     ================================================ -->
-<section id="s-finale" class="screen scroll-screen">
-    <canvas id="sparkleCanvas"></canvas>
-    <div class="finale-wrap">
-        <p class="finale-small-label">Aur ek aakhri baat... 🌹</p>
-
-        <h1 class="finale-big-name">Shrishti</h1>
-
-        <div class="finale-messages" id="finaleMessages">
-            <div class="finale-msg-block">
-                <p class="finale-msg" id="fmsg1"></p>
-            </div>
-            <div class="finale-rose">🌹</div>
-            <div class="finale-msg-block">
-                <p class="finale-msg" id="fmsg2"></p>
-            </div>
-            <div class="finale-rose">💝</div>
-            <div class="finale-msg-block">
-                <p class="finale-msg" id="fmsg3"></p>
-            </div>
-        </div>
-
-        <div class="finale-names-row">
-            <span class="fn-tag">Billu 🐱</span>
-            <span class="fn-heart">💝</span>
-            <span class="fn-tag">Shriuu 🥰</span>
-        </div>
-
-        <p class="finale-date">12 . 02 . 2026</p>
-
-        <p class="finale-end-line">...Yeh sirf shuruat hai 🌹</p>
+    <div id="gameStart">
+      <button class="btn-primary" id="gameStartBtn">Shuru Karo &nbsp;💝<span class="btn-glow"></span></button>
     </div>
-</section>
+    <div class="reasons-grid" id="reasonsGrid"></div>
+    <p class="game-win-msg hidden" id="gameWin">Yahi wajahein hain Shriuu... tum bohot khaas ho 🥺</p>
+    <button class="btn-continue" onclick="goTo('compliments')">Aage Badho &nbsp;✨<span class="btn-glow"></span></button>
+  </div>
+</div>
 
-<!-- ================================================
-     FOOTER — DEV CREDITS
-     ================================================ -->
-<footer id="devCredits">
-    <p class="dev-credit-text">
-        Made With ❤️ By <strong>Billu 🐱</strong> for my <strong>Shriuu 🫶</strong>
-    </p>
-</footer>
+<!-- PAGE 8: COMPLIMENT GENERATOR -->
+<div class="page" id="page-compliments">
+  <canvas id="complimentCanvas"></canvas>
+  <div class="page-inner" style="position:relative;z-index:2;">
+    <h2 class="page-heading">Sun Toh... 🌸</h2>
+    <p class="page-sub">Aaj bata deta hoon tum kitni khaas ho</p>
+    <div class="compliment-scene">
+      <div class="cs-side cs-left">
+        <span>🌸</span><span>💕</span><span>✨</span><span>🌹</span><span>💫</span><span>🥰</span>
+      </div>
+      <div class="compliment-card rg-card" id="complimentCard">
+        <div class="cc-deco-top">💝 &nbsp; 💕 &nbsp; 💝</div>
+        <p class="cc-text" id="ccText">Tap karo aur dekho... 💕</p>
+        <div class="cc-deco-btm">✨ &nbsp; 🌸 &nbsp; ✨</div>
+      </div>
+      <div class="cs-side cs-right">
+        <span>💖</span><span>🌟</span><span>💐</span><span>🥰</span><span>✦</span><span>🎀</span>
+      </div>
+    </div>
+    <button class="btn-primary btn-compliment" id="complimentBtn">
+      Tap to see how special you are &nbsp;💕<span class="btn-glow"></span>
+    </button>
+    <p class="compliment-counter" id="complimentCounter">20 compliments tumhara intezaar kar rahe hain 🥰</p>
+    <div class="compliment-deco-row">
+      <span>💕</span><span>🌸</span><span>💖</span><span>✨</span>
+      <span>🥰</span><span>💫</span><span>🌹</span><span>💝</span>
+    </div>
+    <button class="btn-continue" onclick="goTo('wishjar')">Aage Badho &nbsp;🫙<span class="btn-glow"></span></button>
+  </div>
+</div>
+
+<!-- PAGE 9: WISH JAR -->
+<div class="page" id="page-wishjar">
+  <div class="page-inner">
+    <h2 class="page-heading">Mere Dil Ke Kuch Khwaab... 🌙</h2>
+    <p class="page-sub">Jo tumhare saath poore honge 🥺</p>
+    <div class="jar-scene" id="jarScene">
+      <div class="jar-glow-ring"></div>
+      <svg class="jar-svg" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="jbg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="rgba(255,180,160,0.22)"/>
+            <stop offset="100%" stop-color="rgba(200,100,80,0.08)"/>
+          </linearGradient>
+          <linearGradient id="jcap" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#e8a07a"/>
+            <stop offset="100%" stop-color="#c9714a"/>
+          </linearGradient>
+        </defs>
+        <rect x="36" y="8" width="48" height="16" rx="5" fill="url(#jcap)" stroke="#c9906a" stroke-width="1.5"/>
+        <rect x="30" y="22" width="60" height="9" rx="3" fill="#d4956a" opacity="0.6"/>
+        <path d="M26 33 Q20 92 23 150 Q60 164 97 150 Q100 92 94 33 Z" fill="url(#jbg)" stroke="rgba(212,149,106,0.55)" stroke-width="1.8"/>
+        <path d="M36 40 Q32 92 34 140" stroke="rgba(255,255,255,0.22)" stroke-width="5" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div class="jar-notes-inner" id="jarNotes">
+        <span class="jn">📜</span><span class="jn">📜</span>
+        <span class="jn">📜</span><span class="jn">📜</span><span class="jn">📜</span>
+      </div>
+      <p class="jar-hint">Jar ko tap karo 🫙</p>
+    </div>
+    <div class="wish-reveal-area" id="wishRevealArea">
+      <div class="wish-note" id="wishNote">
+        <div class="wn-header">📜 Ek Khwaab</div>
+        <p class="wn-text" id="wishText"></p>
+      </div>
+    </div>
+    <p class="wish-count" id="wishCount">15 khwaab tumhara intezaar kar rahe hain... 🌙</p>
+    <button class="btn-continue" onclick="goTo('voice')">Aage Badho &nbsp;🎙️<span class="btn-glow"></span></button>
+  </div>
+</div>
+
+<!-- PAGE 10: VOICE NOTE -->
+<div class="page" id="page-voice">
+  <div class="page-inner">
+    <h2 class="page-heading">Ab Meri Awaaz Suno 🎙️</h2>
+    <p class="page-sub">Sirf tumhare liye record ki hai 🥺</p>
+    <div class="pookie-banner top-banner">
+      <span>🌸</span><span>Meri pyaari Shriuu</span><span>💕</span>
+      <span>Meri jaan</span><span>🎀</span><span>Meri Rani</span><span>🌸</span>
+    </div>
+    <div class="voice-deco-strip vds-top">
+      <span>Tum meri sabse pyaari ho</span><span>💕</span>
+      <span>Mera dil sirf tumhara hai</span><span>🥺</span>
+    </div>
+    <div class="mic-scene">
+      <div class="mic-orb" id="micOrb">
+        <div class="mic-pulse mp1"></div>
+        <div class="mic-pulse mp2"></div>
+        <div class="mic-pulse mp3"></div>
+        <div class="mic-core"><span>🎙️</span></div>
+      </div>
+    </div>
+    <p class="mic-hint" id="micHint">Tap karo aur suno 🥺</p>
+    <canvas class="viz-canvas" id="vizCanvas"></canvas>
+    <div class="voice-love-tags" id="voiceTags">
+      <span class="vlt vlt1">Meri jaan 💕</span>
+      <span class="vlt vlt2">Meri Shriuu 🥺</span>
+      <span class="vlt vlt3">Meri Pari 🌸</span>
+      <span class="vlt vlt4">Meri Rani 👑</span>
+      <span class="vlt vlt5">Meri Wifeyyy 💍</span>
+    </div>
+    <div class="voice-deco-strip vds-btm">
+      <span>Tumse pyaar hai mujhe</span><span>💖</span>
+      <span>Hamesha, hamesha</span><span>🥰</span>
+    </div>
+    <div class="pookie-banner btm-banner">
+      <span>🎀</span><span>Meri Pari</span><span>🌹</span>
+      <span>Meri Wifeyyy</span><span>💍</span><span>Meri Sonpapdi</span><span>🎀</span>
+    </div>
+    <button class="btn-continue" onclick="goTo('finale')">Aage Badho &nbsp;🌟<span class="btn-glow"></span></button>
+  </div>
+</div>
+
+<!-- PAGE 11: GRAND FINALE -->
+<div class="page page-scroll" id="page-finale">
+  <canvas id="sparkleCanvas"></canvas>
+  <div class="finale-wrap">
+    <div class="finale-days-strip">
+      <span class="fds-label">Hum saath hain</span>
+      <span class="fds-num" id="finaleDays">0</span>
+      <span class="fds-label">dinon se</span>
+      <span>💝</span>
+    </div>
+    <p class="finale-toplabel">Aur ek aakhri baat... 🌹</p>
+    <h1 class="finale-name">Shrishti</h1>
+    <div class="finale-msgs">
+      <div class="finale-msg-card rg-card"><div class="fmc-icon">🌹</div><p class="finale-msg" id="fm1"></p></div>
+      <div class="finale-divider">✦ ✦ ✦</div>
+      <div class="finale-msg-card rg-card"><div class="fmc-icon">💝</div><p class="finale-msg" id="fm2"></p></div>
+      <div class="finale-divider">✦ ✦ ✦</div>
+      <div class="finale-msg-card rg-card"><div class="fmc-icon">🌙</div><p class="finale-msg" id="fm3"></p></div>
+    </div>
+    <div class="finale-names">
+      <span class="fn-name">Billu 🐱</span>
+      <span class="fn-heart">💝</span>
+      <span class="fn-name">Shriuu 🥰</span>
+    </div>
+    <p class="finale-date">12 . 02 . 2026</p>
+    <p class="finale-end">...Yeh sirf shuruat hai 🌹</p>
+    <footer class="dev-footer">
+      <p class="dev-credit">Made With ❤️ By <strong>Billu 🐱</strong> for my <strong>Shriuu 🫶</strong></p>
+    </footer>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>
